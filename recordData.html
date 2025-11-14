@@ -1,0 +1,19 @@
+<template>
+    <lightning-card>
+        <template if:true={records.length}>
+            <lightning-datatable key-field="Id"
+                                 data={recordsToShow}
+                                 columns={columns}
+                                 hide-checkbox-column>
+            </lightning-datatable>
+            <template if:true={showFullScreen}>
+                <div class="slds-p-top_small">
+                    <lightning-button label="View Full Screen" variant="neutral" onclick={viewFullScreen}></lightning-button>
+                </div>
+            </template>
+        </template>
+        <template if:false={records.length}>
+            <p class="slds-p-around_medium">No records found.</p>
+        </template>
+    </lightning-card>
+</template>
