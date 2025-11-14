@@ -1,0 +1,22 @@
+public with sharing class MultiContactWorkspaceController {
+    @AuraEnabled(cacheable=true)
+    public static List<Contact> searchContacts(String query) {
+        return [SELECT Id, Name, Phone, Email 
+                FROM Contact 
+                WHERE Name LIKE :('%' + query + '%') 
+                OR Phone LIKE :('%' + query + '%') 
+                LIMIT 20];
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Case> getCases(List<Id> contactIds) {
+        return [SELECT Id, CaseNumber, Subject, Status, Priority, CreatedDate, ContactId
+                FROM Case WHERE ContactId IN :contactIds];
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Task> getTasks(List<Id> contactIds) {
+        return [SELECT Id, Subject, ActivityDate, CreatedDate, WhatId, WhoId
+                FROM Task WHERE WhoId IN :contactIds];
+    }
+}
